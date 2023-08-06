@@ -41,6 +41,23 @@ class BinaryTree {
         }
     }
 
+    boolean find(int value) {
+        Node node = root;
+        while (node != null) {
+            if (node.value == value) {
+                return true;
+            }
+            if (node.value < value) {
+                node = node.right;
+            } else {
+                node = node.left;
+            }
+        }
+        return false;
+
+    }
+
+
     private void colorSwap(Node node) {
         node.right.color = Color.BLACK;
         node.left.color = Color.BLACK;
@@ -118,6 +135,14 @@ public class Main {
         tree.add(4);
         tree.add(6);
         tree.add(8);
+
+        System.out.println(tree.find(5));
+        System.out.println(tree.find(3));
+        System.out.println(tree.find(7));
+        System.out.println(tree.find(2));
+        System.out.println(tree.find(4));
+        System.out.println(tree.find(6));
+        System.out.println(tree.find(8));
     }
 }
 
