@@ -17,7 +17,7 @@ class BinaryTree {
             if (node.value > value) {
                 if (node.left != null) {
                     boolean result = addNode(node.left, value);
-                    node.left = rebalance(node.left);
+                    node.left = treeRebalancing(node.left);
                     return result;
                 } else {
                     node.left = new Node();
@@ -28,7 +28,7 @@ class BinaryTree {
             } else {
                 if (node.right != null) {
                     boolean result = addNode(node.right, value);
-                    node.right = rebalance(node.right);
+                    node.right = treeRebalancing(node.right);
                     return result;
                 } else {
                     node.right = new Node();
@@ -49,9 +49,9 @@ class BinaryTree {
 
     private Node leftSwap(Node node) {
         Node left = node.left;
-        Node between = left.right;
+        Node temp = left.right;
         left.right = node;
-        node.left = between;
+        node.left = temp;
         left.color = node.color;
         node.color = Color.RED;
         return left;
@@ -59,43 +59,43 @@ class BinaryTree {
 
     private Node rightSwap(Node node) {
         Node right = node.right;
-        Node between = right.left;
+        Node temp = right.left;
         right.left = node;
-        node.right = between;
+        node.right = temp;
         right.color = node.color;
         node.color = Color.RED;
         return right;
     }
 
-    private Node rebalance(Node node) {
+    private Node treeRebalancing(Node node) {
         Node result = node;
-        boolean needRebalance;
+        boolean needForRebalancing;
         do {
-            needRebalance = false;
+            needForRebalancing = false;
             if (result.right != null && result.right.color == Color.RED &&
                     (result.left == null || result.left.color == Color.BLACK)) {
-                needRebalance = true;
+                needForRebalancing = true;
                 result = rightSwap(result);
             }
             if (result.left != null && result.left.color == Color.RED &&
                     result.left.left != null && result.left.left.color == Color.RED) {
-                needRebalance = true;
+                needForRebalancing = true;
                 result = leftSwap(result);
             }
             if (result.left != null && result.left.color == Color.RED &&
                     result.right != null && result.right.color == Color.RED) {
-                needRebalance = true;
+                needForRebalancing = true;
                 colorSwap(result);
             }
         }
-        while (needRebalance);
+        while (needForRebalancing);
         return result;
     }
 
     public boolean add(int value) {
         if (root != null) {
             boolean result = addNode(root, value);
-            root = rebalance(root);
+            root = treeRebalancing(root);
             root.color = Color.BLACK;
             return result;
         } else {
