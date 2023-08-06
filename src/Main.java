@@ -1,7 +1,8 @@
 import java.awt.*;
 
-class BinaryTree{
+class BinaryTree {
     Node root;
+
     class Node {
         int value;
         Node left;
@@ -9,12 +10,11 @@ class BinaryTree{
         private Color color;
     }
 
-    private boolean addNode(Node node, int value){
-        if(node.value == value){
+    private boolean addNode(Node node, int value) {
+        if (node.value == value) {
             return false;
-        }
-        else{
-            if(node.value > value) {
+        } else {
+            if (node.value > value) {
                 if (node.left != null) {
                     boolean result = addNode(node.left, value);
                     node.left = rebalance(node.left);
@@ -25,14 +25,12 @@ class BinaryTree{
                     node.left.value = value;
                     return true;
                 }
-            }
-            else{
-                if(node.right != null){
+            } else {
+                if (node.right != null) {
                     boolean result = addNode(node.right, value);
                     node.right = rebalance(node.right);
                     return result;
-                }
-                else{
+                } else {
                     node.right = new Node();
                     node.right.color = Color.RED;
                     node.right.value = value;
@@ -43,13 +41,13 @@ class BinaryTree{
         }
     }
 
-    private void colorSwap(Node node){
+    private void colorSwap(Node node) {
         node.right.color = Color.BLACK;
         node.left.color = Color.BLACK;
         node.color = Color.RED;
     }
 
-    private Node leftSwap(Node node){
+    private Node leftSwap(Node node) {
         Node left = node.left;
         Node between = left.right;
         left.right = node;
@@ -59,7 +57,7 @@ class BinaryTree{
         return left;
     }
 
-    private Node rightSwap(Node node){
+    private Node rightSwap(Node node) {
         Node right = node.right;
         Node between = right.left;
         right.left = node;
@@ -69,70 +67,57 @@ class BinaryTree{
         return right;
     }
 
-    private Node rebalance(Node node){
+    private Node rebalance(Node node) {
         Node result = node;
         boolean needRebalance;
-        do{
+        do {
             needRebalance = false;
-            if(result.right != null && result.right.color == Color.RED &&
-                    (result.left == null || result.left.color == Color.BLACK)){
+            if (result.right != null && result.right.color == Color.RED &&
+                    (result.left == null || result.left.color == Color.BLACK)) {
                 needRebalance = true;
                 result = rightSwap(result);
             }
-            if(result.left != null && result.left.color == Color.RED &&
-                result.left.left != null && result.left.left.color == Color.RED){
-                    needRebalance = true;
-                    result = leftSwap(result);
+            if (result.left != null && result.left.color == Color.RED &&
+                    result.left.left != null && result.left.left.color == Color.RED) {
+                needRebalance = true;
+                result = leftSwap(result);
             }
-            if(result.left != null && result.left.color == Color.RED &&
-                    result.right != null && result.right.color == Color.RED){
+            if (result.left != null && result.left.color == Color.RED &&
+                    result.right != null && result.right.color == Color.RED) {
                 needRebalance = true;
                 colorSwap(result);
             }
         }
-        while(needRebalance);
+        while (needRebalance);
+        return result;
     }
 
-    public boolean add(int value){
-        if(root != null){
+    public boolean add(int value) {
+        if (root != null) {
             boolean result = addNode(root, value);
             root = rebalance(root);
             root.color = Color.BLACK;
             return result;
-        }
-        else{
+        } else {
             root = new Node();
             root.color = Color.BLACK;
             root.value = value;
             return true;
         }
     }
+}
 
-
-public class Main{
+public class Main {
     public static void main(String[] args) {
-//        HashMap map = new HashMap();
-//        map.push(1,2);
-//        map.push(3,4);
-//        map.push(5,6);
-//
-//        System.out.println(map.find(3));
-//        System.out.println(map.find(2));
-//
-//        map.push(17,8);
-//
-//        System.out.println(map.find(17));
 
         BinaryTree tree = new BinaryTree();
-        tree.push(5);
-        tree.push(3);
-        tree.push(7);
-        tree.push(2);
-        tree.push(4);
-        tree.push(6);
-        tree.push(8);
-
-
+        tree.add(5);
+        tree.add(3);
+        tree.add(7);
+        tree.add(2);
+        tree.add(4);
+        tree.add(6);
+        tree.add(8);
     }
-
 }
+
