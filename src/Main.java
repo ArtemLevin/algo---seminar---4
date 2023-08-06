@@ -1,4 +1,3 @@
-import java.awt.*;
 
 class BinaryTree {
     Node root;
@@ -8,6 +7,26 @@ class BinaryTree {
         Node left;
         Node right;
         private Color color;
+
+        @Override
+        public String toString() {
+            if (value == root.value) {
+                return '\n'+ "<Root> value is " + value +
+                        ", root color is " + color;
+            }
+            else if (color == null){
+                return '\n'+ "There is no node with value = " + value + " in tree";
+            }
+            else {
+                return '\n'+ "<Node> value is " + value +
+                        ", node color is " + color;
+            }
+
+        }
+    }
+
+    private enum Color {
+        RED, BLACK
     }
 
     private boolean addNode(Node node, int value) {
@@ -41,11 +60,11 @@ class BinaryTree {
         }
     }
 
-    boolean find(int value) {
+    Node find(int value) {
         Node node = root;
         while (node != null) {
             if (node.value == value) {
-                return true;
+                return node;
             }
             if (node.value < value) {
                 node = node.right;
@@ -53,7 +72,11 @@ class BinaryTree {
                 node = node.left;
             }
         }
-        return false;
+
+        Node nullNode = new Node();
+        nullNode.value = value;
+
+        return nullNode;
 
     }
 
@@ -128,21 +151,29 @@ public class Main {
     public static void main(String[] args) {
 
         BinaryTree tree = new BinaryTree();
-        tree.add(5);
         tree.add(3);
         tree.add(7);
         tree.add(2);
+        tree.add(5);
         tree.add(4);
         tree.add(6);
         tree.add(8);
+        tree.add(10);
+        tree.add(15);
+        tree.add(100499);
 
-        System.out.println(tree.find(5));
         System.out.println(tree.find(3));
         System.out.println(tree.find(7));
         System.out.println(tree.find(2));
+        System.out.println(tree.find(5));
         System.out.println(tree.find(4));
         System.out.println(tree.find(6));
         System.out.println(tree.find(8));
+        System.out.println(tree.find(10));
+        System.out.println(tree.find(15));
+        System.out.println(tree.find(100499));
+        System.out.println(tree.find(100500));
     }
+
 }
 
